@@ -67,7 +67,7 @@ socket.on('connection', function(client){
     if(d.func === 'stuffAround')
     {
       stuffAround(d.latitude, d.longitude, function(d){
-        client.send(d);
+       console.log(this);console.log(d); client.send(d);
       }, d.radius, d.offset);
     }
   }) 
