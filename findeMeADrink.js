@@ -57,7 +57,7 @@ var detail = function(spot_id, callback)
    res.send('Hello World');
  });
 
- app.listen(3001);
+ app.listen(8080);
  
  var socket = io.listen(app); 
 socket.on('connection', function(client){ 
