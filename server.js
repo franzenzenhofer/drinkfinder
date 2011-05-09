@@ -65,7 +65,7 @@ var widget = function(spot_id, callback)
    res.send('Hello World');
  });
 
- app.listen(8080);
+ app.listen(9980);
  
  var socket = io.listen(app); 
 socket.on('connection', function(client){ 
