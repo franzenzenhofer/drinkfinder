@@ -1,0 +1,16 @@
+{
+  "name"          : "drinkfinder",
+  "description"   : "web app to find drink possibilities near you",
+  "url"           : "https://github.com/franzenzenhofer/drinkfinder",
+  "keywords"      : ["logs", "log"],
+  "author"        : "Franz Enzenhofer <f.enzenhofer@gmail.com>",
+  "contributors"  : [],
+   "licenses": [
+     {
+        "type": "MIT"
+     }
+   ],
+  "dependencies"  : [],
+  "main"          : "./findeMeADrink.js",
+  "version"       : "0.0.1-0"
+}
