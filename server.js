@@ -4,15 +4,18 @@ var tupalo = require('tupalocomapi');
   //with a value like
   //module.exports.tupalo_token = '86fe2257851XYZb168b67846c6b0f28e'; //(fake) tupalocomtoken
   var token = require('./token.js');
-  if(!token)
+  if(token&&token.tupalo_token)
   {
+    console.log("**TOKEN MODE**");
+    console.log(token.tupalo_token);
+    tupalo.setToken(token.tupalo_token);
+  }
+  else
+  {  
+    
     console.log("**TOKENLESS MODE**");
     console.log("token is not set")
     console.log("widget and match won't work")
-  }
-  else
-  {
-    tupalo.setToken(token.tupalo_token);
   }
  }
  catch(e)
