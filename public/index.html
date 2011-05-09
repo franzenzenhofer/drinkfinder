@@ -61,7 +61,7 @@
     //"gameoflife.duostack.net", {port:9980,
     
    // c = new io.Socket("127.0.0.1", {transports:["websocket", "flashsocket", "htmlfile", "xhr-multipart", "xhr-polling", "jsonp-polling"], port:8080, connectTimeout:1E3, tryTransportsOnConnectTimeout:true, reconnect:true, reconnectionDelay:500});
-    c = new io.Socket("gameoflife.duostack.net", {transports:["websocket", "flashsocket", "htmlfile", "xhr-multipart", "xhr-polling", "jsonp-polling"], port:9980, connectTimeout:1E3, tryTransportsOnConnectTimeout:true, reconnect:true, reconnectionDelay:500});
+    c = new io.Socket(null, {transports:["websocket", "flashsocket", "htmlfile", "xhr-multipart", "xhr-polling", "jsonp-polling"],  connectTimeout:1E3, tryTransportsOnConnectTimeout:true, reconnect:true, reconnectionDelay:500});
     //console.log(c);
     c.on("connecting", function(kind) {
       alert("connecting");
