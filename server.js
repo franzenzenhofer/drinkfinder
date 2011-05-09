@@ -11,10 +11,8 @@ var tupalo = require('tupalocomapi');
   console.log("**TOKENLESS MODE**");
   console.log("widget and match won't work")
  }
-var express = require('./node_modules/express');
+var express = require('express');
 var io = require('socket.io');
-var nowjs = require('./node_modules/now');
-var nowjs = require('./node_modules/now');
 var app = express.createServer();
 app.use(express.static(__dirname + '/public'));
 
