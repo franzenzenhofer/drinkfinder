@@ -1,4 +1,4 @@
 config.js
-notoken
+token
 node_modules
-notoken.js
+token.js
