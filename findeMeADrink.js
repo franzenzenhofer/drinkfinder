@@ -47,7 +47,17 @@ var detail = function(spot_id, callback)
     var data = {
       spot_id:spot_id
     }
-    return tupalo.en.spot(data);
+    return tupalo.en.spot(data, callback);
+}
+
+var widget = function(spot_id, callback)
+{
+    var spot_id = spot_id || 'iqlu';
+    var callback = callback || function(d){ console.log(d); }
+    var data = {
+      spot_id:spot_id
+    }
+    return tupalo.en.widget(data, callback);
 }
 
 
@@ -64,11 +74,42 @@ socket.on('connection', function(client){
   // new client is here! 
   client.on('message', function(d){
     console.log(d);
+    console.log(d.func)
     if(d.func === 'stuffAround')
     {
       stuffAround(d.latitude, d.longitude, function(d){
-       console.log(this);console.log(d); client.send(d);
+        client.send({
+          what:'stuffAround',
+          data: JSON.parse(d)
+        });
       }, d.radius, d.offset);
+    }
+    else if(d.func === 'widget')
+    {
+      console.log("widget");
+      widget(d.spot_id, function(d){ var sid = d.spot_id+'';
+       return function(d){
+        console.log(d);
+        client.send({
+          what:'widget',
+          spot_id: sid,
+          data: JSON.parse(d)
+        });
+      }}(d));
+    }
+    else if(d.func === 'detail')
+    {
+      console.log("detail");
+      detail(d.spot_id, function(d){ var sid = d.spot_id+'';
+       return function(d){
+        console.log(d);
+        client.send({
+          what:'detail',
+          spot_id: sid,
+          data: JSON.parse(d)
+        });
+      }}(d));
+      
     }
   }) 
   client.on('disconnect', function(){ }) 

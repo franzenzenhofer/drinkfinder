@@ -22,16 +22,19 @@ body{
 .aplace
 {
   display: box;
+  position: relative;
   border: 2px solid white;
   width: 210px;
-  min-height: 400px;
+  min-height: 450px;
+  height:450px;
   float: left;
   padding:5px;
   margin:10px;
-  box-shadow: 5px 5px 10px #E4EEF6;
+  /*box-shadow: 5px 5px 10px #E4EEF6;*/
   padding: 5px;
   color:#e4eef6;
 	background:#4a8ec2;
+	overflow:hidden;
 }
 
 .boldium
@@ -40,6 +43,24 @@ body{
   font-size:400%;
   text-decoration: underline;
   cursor: pointer;
+}
+
+.review
+{
+  display:none;
+}
+
+.aplace .header
+{
+  color:black !important;
+}
+
+div.reviewactions
+{
+  position: absolute;
+  bottom: 0;
+  cursor: pointer;
+  font-variant: small-caps;
 }
 
 
@@ -53,6 +74,7 @@ h1{
 	font-weight:bold;
 	font-size:3em;
 	line-height:1;
+	display:inline;
 }
 
 h3{
@@ -63,6 +85,13 @@ h3{
 }
 a{
 	color:inherit;
+}
+
+.areview
+{
+  margin-bottom:3px;
+  padding-bottom:3px;
+  border-bottom: 1px dotted white;
 }
 
 

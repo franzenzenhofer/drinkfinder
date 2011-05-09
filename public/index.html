@@ -12,8 +12,8 @@
     
     <script src='js/humane.js'></script>
     
-    <script src='jquery.ui.touch.js'></script>
-    <script src='js/jquery.flip.js'></script>
+    <!--  <script src='js/jquery.ui.touch.js'></script> -->
+  <script src='js/jquery.flip.js'></script> 
      <link rel='stylesheet' href='js/humane-themes/bold-dark.css'>
     <script src="http://cdn.socket.io/stable/socket.io.js"></script>
   <!-- The framework --> 
@@ -28,227 +28,176 @@
     
     <!-- <script src="/nowjs/now.js"></script> -->
     <script>
-    $(function() {
-      var lastData=[];
-      var wholeData=[];
-      var radius = 1;
-      var wholeDataLength=(wholeData.length+0);
-      humane.timeout = 500;
-      humane.waitForMove = false;
-      humane.forceNew = false;
-  
-      var success_callback = function(d)
-      {
-        var latitude = d["coords"]["latitude"];
-        var longitude = d["coords"]["longitude"];
-       // humane('looking . ');
-        var c = new io.Socket("127.0.0.1", {
-          transports: ['websocket', 'flashsocket', 'htmlfile', 'xhr-multipart', 'xhr-polling', 'jsonp-polling'],
-          port:8080,
-          connectTimeout:1000,
-          tryTransportsOnConnectTimeout:true,
-          reconnect:true,
-          reconnectionDelay:500,
-          });
-        console.log(c);
-        c.on("connecting", function(kind)
-        {
-          alert('connecting');
-          console.log(kind);
-        });
-        
-         c.on("connect_failed", function()
-        {
-          alert('connect_failed');
-          console.log('connect_failed');
-        });
-        c.on("connect", function() {
-          console.log('connected');
-          humane('looking .. ');
-          c.send({
-            "func":"stuffAround",
-            "latitude":latitude,
-            "longitude":longitude,
-            "radius":radius,
-            "offset":0
-          });
-          //humane("up and running, baby");
-        });
-        
-        
-        
-        c.on("message", function(b) {
-          
-          //console.log(b);
-          //humane("I luv data!");
-           b = JSON.parse(b);
-          if(!b[0])
-          {
-            //keine daten
-            
-            if(radius<5)
-            {
-              humane('still looking ... ');
-              radius = radius + 1;
-              console.log('***NO DATA***');
-             // humane("radius "+radius);
-              c.send({
-                "func":"stuffAround",
-                "latitude":latitude,
-                "longitude":longitude,
-                "radius":radius,
-                "offset":(wholeData.length+1)
-              });
-            }
-            else
-            {
-              humane("sorry, no drinks for you (in our database)");
-            }
-            
-          }
-          else
-          {
-            console.log('**** D A T A ***');
-            console.log(b[0]);
-            console.log(typeof b[0]);
-            //console.log(b);
-            lastData = [];
-            //b = JSON.parse(b);
-            console.log(b);
-            wholeData = wholeData.concat(b);
-            //console.log(wholeData);
-            b.forEach(function(e){
-            
-            var advanced_google_maps_url = e.google_maps_url+'&markers=icon:http%3A%2F%2Fwww.facesaerch.com%2Fimages%2Fknight.png|'+latitude+','+longitude;//'&style=feature:road.local%7Celement:geometry%7Chue:0x000000%7Csaturation:0&style=feature:landscape%7Celement:geometry%7Clightness:+100';
-            var starA = [];
-            for(var i = 1; i<=e.rating; i++)
-            {
-              starA.push('<img src="/img/star.png">');
-            }
-            if(starA.length<e.rating)
-            {
-              starA.push('<img src="/img/half.png">');
-            }
-            
-             // console.log(e);
-           
-             $(['<div class="aplace" id="place'+e.spot_id+'">',
-                '<h3>',
-                  '<a href="'+e.external_url+'" target="_blank">',
-                  e.name,
-                  '</a>',
-                '</h3>',
-                '<div >',
-                  '<div>',
-                    e.street,
-                  '</div>',
-                    '<a href="'+e.external_url+'" target="_blank">',
-                      '<img src="'+advanced_google_maps_url+'">',
-                    '</a>',
-                  '<div>',
-                    e.category,
-                  '</div>',
-                  '<div>',
-                    starA.join(''),
-                  '</div>',
-                '</div>',
-              '</div>'
-             ].join('')).click(function(elem){
-              //console.dir(elem);
-             $(this).flip({
-	              direction:'lr',
-	              color:'#4a8ec2',
-	              content:$(['<div class="aplace" id="place_backside_'+e.spot_id+'">',
-                '<h3>',
-                  '<a href="'+e.external_url+'" target="_blank">',
-                  e.name,
-                  '</a>',
-                '</h3>',
-                '<div >',
-                  '<div>',
-                    e.street,
-                  '</div>',
-                    '<a href="'+e.external_url+'" target="_blank">',
-                      '<img src="'+advanced_google_maps_url+'">',
-                    '</a>',
-                  '<div>',
-                    e.website_url_formatted,
-                  '</div>',
-                  '<div>',
-                    starA.join(''),
-                  '</div>',
-                '</div>',
-              '</div>'
-             ].join(''))
-              });
-             }).appendTo('#places');
-          
-          });
-           
-           //more button
-           if((wholeDataLength!==wholeData.length)&&wholeData.length<50)
-           {
-            wholeDataLength=wholeData.length;
-            var myid="hudriwudri"+wholeData.length;
-            $('#places').append(
-            ['<div class="aplace more" id="'+myid+'">',
-              '<div>',
-                  '<b class="boldium">',
-                    'more',
-                  '</b>',
-                  '</div>',
-            '</div>'
-             ].join(''));
-             
-               $("#"+myid).click(function(e){ 
-               humane("Ok, looking for more places!");
-              c.send({
-                "func":"stuffAround",
-                "latitude":latitude,
-                "longitude":longitude,
-                "radius":radius,
-                "offset":(wholeData.length+1)
-              });
-              console.log("offset length");
-              console.log(wholeData.length);
-              $("#"+myid).remove();
-              $('.more').remove();
-             
-             });
-            }
-            
-          }
-          
-        });
-        
-        c.on("disconnect", function() {
-          humane("Oh frak, i lost the connection!");
-        });
-        c.connect();
-        
-      }
-      
-      var error_callback = function(e)
-      {
-        console.log(e);
-        humane("No drink's for you! There was an error!");
-      }
-    
-      if(geo_position_js.init()){
-       humane("Let's find you somewhere to drink!");
-   geo_position_js.getCurrentPosition(success_callback,error_callback);
+   $(function() {
+  var lastData = [];
+  var wholeData = [];
+  var radius = 1;
+  var wholeDataLength = wholeData.length + 0;
+  humane.timeout = 500;
+  humane.waitForMove = false;
+  humane.forceNew = false;
+  var c = undefined;
+  var blocked = {};
+  $(".write").live("click", function(elem) {
+    if(!blocked[$(this).attr("name")])
+    {
+      blocked[$(this).attr("name")]=true;
+      c.send({"func":"widget", "spot_id":$(this).attr("name")});
     }
-    else{
-    alert("I don't now where you are! Get a <a href='http://www.google.com/chrome/intl/en/make/download-mac.html?brand=CHKZ'>better browser</a>!");
+  });
+  $(".check").live("click", function(elem) {
+    if(!blocked[$(this).attr("name")])
+    {
+      blocked[$(this).attr("name")]=true;
+    c.send({"func":"detail", "spot_id":$(this).attr("name")});
     }
+  });
+  $(".back").live("click", function(elem) {
+    $("#place" + $(this).attr("name")).revertFlip()
+  });
+  var success_callback = function(d) {
+    var latitude = d["coords"]["latitude"];
+    var longitude = d["coords"]["longitude"];
+    c = new io.Socket("127.0.0.1", {transports:["websocket", "flashsocket", "htmlfile", "xhr-multipart", "xhr-polling", "jsonp-polling"], port:8080, connectTimeout:1E3, tryTransportsOnConnectTimeout:true, reconnect:true, reconnectionDelay:500});
+    //console.log(c);
+    c.on("connecting", function(kind) {
+      alert("connecting");
+      //console.log(kind)
     });
-    
+    c.on("connect_failed", function() {
+      alert("connect_failed");
+     // console.log("connect_failed")
+    });
+    c.on("connect", function() {
+     // console.log("connected");
+      humane("looking .. ");
+      c.send({"func":"stuffAround", "latitude":latitude, "longitude":longitude, "radius":radius, "offset":0})
+    });
+    c.on("message", function(b) {
+     // console.log(b);
+      if(b.what === "stuffAround" && !b.data[0]) {
+        if(radius < 5) {
+          humane("still looking ... ");
+          radius = radius + 1;
+         // console.log("***NO DATA***");
+          c.send({"func":"stuffAround", "latitude":latitude, "longitude":longitude, "radius":radius, "offset":wholeData.length + 1})
+        }else {
+          humane("sorry, no drinks for you (in our database)")
+        }
+      }
+      if(b.what === "stuffAround" && b.data[0]) {
+        //console.log("**** D A T A ***");
+        //console.log(b[0]);
+       // console.log(typeof b[0]);
+        lastData = [];
+        //console.log(b);
+        wholeData = wholeData.concat(b);
+        b.data.forEach(function(e) {
+          var advanced_google_maps_url = e.google_maps_url + "&markers=icon:http%3A%2F%2Fwww.facesaerch.com%2Fimages%2Fknight.png|" + latitude + "," + longitude;
+          var starA = [];
+          var reviewlink = "";
+          for(var i = 1;i <= e.rating;i++) {
+            starA.push('<img src="/img/star.png">')
+          }
+          if(starA.length < e.rating) {
+            starA.push('<img src="/img/half.png">')
+          }
+          if(starA.length > 0) {
+            reviewlink = ['<span class="check" id="check' + e.spot_id + '" name="' + e.spot_id + '" >', "Check reviews!", "</span>", "<br>"].join("")
+          }
+          $(['<div class="aplace" id="place' + e.spot_id + '" name="' + e.spot_id + '">', "<h3>", '<a href="' + e.external_url + '" target="_blank">', e.name, "</a>", "</h3>", "<div >", "<div>", e.street, "</div>", '<a href="' + e.external_url + '" target="_blank">', '<img src="' + advanced_google_maps_url + '">', "</a>", "<div>", e.category, "</div>", "<div>", starA.join(""), "</div>", '<div  class="reviewactions">', reviewlink, '<span class="write" id="write' + e.spot_id + '" name="' + e.spot_id + 
+          '" >', "Write a review!", "</span>", "</div>", "</div>", "</div>"].join("")).appendTo("#places")
+        });
+        if(wholeDataLength !== wholeData.length && wholeData.length < 50) {
+          wholeDataLength = wholeData.length;
+          var myid = "hudriwudri" + wholeData.length;
+          $("#places").append(['<div class="aplace more" id="' + myid + '">', "<div>", '<b class="boldium">', "more", "</b>", "</div>", "</div>"].join(""));
+          $("#" + myid).click(function(e) {
+            humane("Ok, looking for more places!");
+            c.send({"func":"stuffAround", "latitude":latitude, "longitude":longitude, "radius":radius, "offset":wholeData.length + 1});
+           // console.log("offset length");
+           // console.log(wholeData.length);
+            $("#" + myid).remove();
+            $(".more").remove()
+          })
+        }
+      }else {
+        if(b.what === "widget") {
+          $("#place" + b.spot_id).flip({direction:"lr", color:"#FFFFFF", content:[b.data.review_widget, '<div  class="reviewactions">', '<span class="back" id="back' + b.spot_id + '" name="' + b.spot_id + '" style="color:black;">Back', "</span>", "</div>"].join(""), onEnd:function() {
+            blocked[b.spot_id]=false;
+          }});
+          $("#widgetwrite" + b.spot_id).click(function(elem) {
+            c.send({"func":"widget", "spot_id":$(this).attr("name")})
+          })
+        }else {
+          if(b.what === "detail") {
+           // console.log(b.data.reviews);
+            if(b && b.data && b.data.reviews && b.data.reviews[0]) {
+              var content = "";
+              var contentA = [];
+              var z = 0;
+              b.data.reviews.forEach(function(e) {
+                if(z < 2) {
+                  contentA.push('<div class="areview">');
+                  contentA.push(e.text.split(".").slice(0, 2).join(". ") + ".");
+                  contentA.push("</div>")
+                }
+                z++
+              });
+              contentA = contentA.concat(['<a href="' + b.data.external_url + '" target="_blank">', "<strong >", "More Reviews", "</strong >", "</a>"]);
+              contentA = contentA.concat(['<div  class="reviewactions">', '<span class="back" id="back' + b.spot_id + '" name="' + b.spot_id + '" >Back', "</span>", "</div>"]);
+              content = contentA.join(" ")
+            }
+            $("#place" + b.spot_id).flip({direction:"rl", color:"#4A8EC2", content:content,onEnd:function() {
+            blocked[b.spot_id]=false;
+            }
+            })
+          }
+        }
+      }
+    });
+    c.on("disconnect", function() {
+      humane("Oh frak, i lost the connection!")
+    });
+    c.connect()
+  };
+  var error_callback = function(e) {
+    //console.log(e);
+    humane("No drink's for you! There was an error!")
+  };
+  if(geo_position_js.init()) {
+    humane("Let's find you somewhere to drink!");
+    geo_position_js.getCurrentPosition(success_callback, error_callback)
+  }else {
+    alert("I don't now where you are! Get a <a href='http://www.google.com/chrome/intl/en/make/download-mac.html?brand=CHKZ'>better browser</a>!")
+  }
+});
+
     </script>
+    <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-540425-14']);
+  _gaq.push(['_setDomainName', 'none']);
+  _gaq.push(['_setAllowLinker', true]);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
   </head>
   <body>
-    <h1><img src='/img/knight.png'> FindMeADrink</h1>
+
+    <h1><img src='/img/knight.png'> <a href='/'>FindMeADrink</a></h1>
+    <h4><a href='https://github.com/franzenzenhofer/drinkfinder'>Fork me on GitHub</a> / <a href='http://tupalo.com'>Powered by the Tupalo.com API</a></h4>
+    
     <div id='places'>
       
     </div>
+    
   </body>
 </html>
