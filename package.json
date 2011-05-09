@@ -10,10 +10,13 @@
         "type": "MIT"
      }
    ],
-  "dependencies"  : {
-    "socket.io": ">=0.0.1",
-    "tupalocomapi": ">=0.0.1"
-  },
+   "dependencies": {
+    "express": "*",
+    "socket.io": "*",
+    "tupalocomapi": "*"
+    
+  }
+,
   "main"          : "./findeMeADrink.js",
   "version"       : "0.0.1-0"
 }
