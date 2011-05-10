@@ -106,7 +106,7 @@
             starA.push('<img src="/img/half.png">')
           }
           if(starA.length > 0) {
-            reviewlink = ['<span class="check" id="check' + e.spot_id + '" name="' + e.spot_id + '" >', "Check reviews!", "</span>", "<br>"].join("")
+            reviewlink = ['<span class="check" id="check' + e.spot_id + '" name="' + e.spot_id + '" >', "Check reviews &rarr;", "</span>", "<br>"].join("")
           }
           $(['<div class="aplace" id="place' + e.spot_id + '" name="' + e.spot_id + '">', "<h3>", '<a href="' + e.external_url + '" target="_blank">', e.name, "</a>", "</h3>", "<div >", "<div>", e.street, "</div>", '<a href="' + e.external_url + '" target="_blank">', '<img src="' + advanced_google_maps_url + '">', "</a>", "<div>", e.category, "</div>", "<div>", starA.join(""), "</div>", '<div  class="reviewactions">', reviewlink, '<span class="write" id="write' + e.spot_id + '" name="' + e.spot_id + 
           '" >', "Write a review!", "</span>", "</div>", "</div>", "</div>"].join("")).appendTo("#places")
@@ -151,7 +151,7 @@
               contentA = contentA.concat(['<div  class="reviewactions">', '<span class="back" id="back' + b.spot_id + '" name="' + b.spot_id + '" >Back', "</span>", "</div>"]);
               content = contentA.join(" ")
             }
-            $("#place" + b.spot_id).flip({direction:"rl", color:"#4A8EC2", content:content,onEnd:function() {
+            $("#place" + b.spot_id).flip({direction:"rl", color:"#ffffff", content:content,onEnd:function() {
             blocked[b.spot_id]=false;
             }
             })
