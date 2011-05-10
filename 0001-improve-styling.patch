@@ -1,0 +1,213 @@
+From ce046687866166931fbddf8b7d846c9dd03be886 Mon Sep 17 00:00:00 2001
+From: Thomas Fadrus <t.fadrus@gmail.com>
+Date: Tue, 10 May 2011 11:45:17 +0200
+Subject: [PATCH] improve styling
+
+---
+ public/css/style.css |   96 +++++++++++++++++++++++++++++---------------------
+ public/index.html    |    4 +-
+ 2 files changed, 58 insertions(+), 42 deletions(-)
+
+diff --git a/public/css/style.css b/public/css/style.css
+index 30223be..75ca5d7 100755
+--- a/public/css/style.css
++++ b/public/css/style.css
+@@ -1,40 +1,44 @@
+ /*------------------------------------*\
+-	MAIN
++  MAIN
+ \*------------------------------------*/
+ html{
+-	font-family:"Helvetica Neue", Arial, sans-serif;
+-	color:#e4eef6;
+-	background:#4a8ec2;
+-	background:-moz-linear-gradient(-90deg,#5998c7,#4a8ec2) fixed;
+-	background:-webkit-gradient(linear,left top,left bottom,from(#5998c7),to(#4a8ec2)) fixed;
++  font-family:"Helvetica Neue", Arial, sans-serif;
++  color:#e4eef6;
++  background:#4a8ec2;
++  background:-moz-linear-gradient(-90deg,#5998c7,#4a8ec2) fixed;
++  background:-webkit-gradient(linear,left top,left bottom,from(#5998c7),to(#4a8ec2)) fixed;
+ }
+ body{
+-	background:none;
+-	padding-top:50px;
+-	text-shadow:0 -1px 0 rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.25);
++  background:none;
++  padding-top:50px;
++  text-shadow:0 -1px 0 rgba(0,0,0,0.5), 0 1px 0 rgba(255,255,255,0.25);
+ }
+ #page{
+-	margin:0 auto;
+-	float:none;
+-	text-align:center;
++  margin:0 auto;
++  float:none;
++  text-align:center;
+ }
+ 
+ .aplace
+ {
+   display: box;
+   position: relative;
+-  border: 2px solid white;
+   width: 210px;
+   min-height: 450px;
+   height:450px;
+   float: left;
+-  padding:5px;
+-  margin:10px;
+-  /*box-shadow: 5px 5px 10px #E4EEF6;*/
+-  padding: 5px;
+-  color:#e4eef6;
+-	background:#4a8ec2;
+-	overflow:hidden;
++  margin: 0 20px 20px 0;
++  -moz-box-shadow: 3px 3px 8px #2B4D71;
++  -webkit-box-shadow: 3px 3px 8px #2B4D71;
++  box-shadow: 3px 3px 8px #2B4D71;
++  padding: 10px;
++  color:#333;
++  background:#fff;
++  overflow:hidden;
++  text-shadow: none;
++  border-radius: 6px;
++  -webkit-border-radius: 5px;
++  -moz-border-radius: 5px;
+ }
+ 
+ .boldium
+@@ -58,40 +62,52 @@ body{
+ div.reviewactions
+ {
+   position: absolute;
+-  bottom: 0;
++  bottom: 10px;
+   cursor: pointer;
+-  font-variant: small-caps;
+ }
+ 
++div.reviewactions .check {
++  font-weight: normal;
++}
++div.reviewactions .check:hover {
++  background-color: #FFF2C6;
++}
++
++div.reviewactions .write {
++  font-weight: bold;
++}
++div.reviewactions .write:hover {
++  background-color: #FFF2C6;
++}
+ 
+ 
+ 
+ 
+ /*------------------------------------*\
+-	TYPE
++  TYPE
+ \*------------------------------------*/
+ h1{
+-	font-weight:bold;
+-	font-size:3em;
+-	line-height:1;
+-	display:inline;
++  font-weight:bold;
++  font-size:3em;
++  line-height:1;
++  display:inline;
+ }
+ 
+ h3{
+-	font-weight:bold;
+-	font-size:1.2em;
+-	line-height:1;
+-	margin-bottom:0px;
++  font-weight:bold;
++  font-size:1.2em;
++  line-height:1;
++  margin-bottom:0px;
+ }
+ a{
+-	color:inherit;
++  color:inherit;
+ }
+ 
+ .areview
+ {
+-  margin-bottom:3px;
+-  padding-bottom:3px;
+-  border-bottom: 1px dotted white;
++  margin-bottom:5px;
++  padding-bottom:5px;
++  border-bottom: 1px solid #D2D2D2;
+ }
+ 
+ 
+@@ -99,10 +115,10 @@ a{
+ 
+ 
+ /*------------------------------------*\
+-	IMAGES
++  IMAGES
+ \*------------------------------------*/
+ #logo{
+-	margin-bottom:1.5em;
++  margin-bottom:1.5em;
+ }
+ 
+ 
+@@ -110,7 +126,7 @@ a{
+ 
+ 
+ /*------------------------------------*\
+-	NARROW
++  NARROW
+ \*------------------------------------*/
+ /*
+ CSS for tablets and narrower devices
+@@ -128,7 +144,7 @@ CSS for tablets and narrower devices
+ 
+ 
+ /*------------------------------------*\
+-	MOBILE
++  MOBILE
+ \*------------------------------------*/
+ /*
+ CSS for mobile devices.
+@@ -141,7 +157,7 @@ Linearise it!
+ 
+ @media (max-width: 720px){
+ body{
+-	font-size:0.75em;
++  font-size:0.75em;
+ }
+ }
+ /*--- END MOBILE ---*/
+\ No newline at end of file
+diff --git a/public/index.html b/public/index.html
+index f445758..01f88db 100644
+--- a/public/index.html
++++ b/public/index.html
+@@ -106,7 +106,7 @@
+             starA.push('<img src="/img/half.png">')
+           }
+           if(starA.length > 0) {
+-            reviewlink = ['<span class="check" id="check' + e.spot_id + '" name="' + e.spot_id + '" >', "Check reviews!", "</span>", "<br>"].join("")
++            reviewlink = ['<span class="check" id="check' + e.spot_id + '" name="' + e.spot_id + '" >', "Check reviews &rarr;", "</span>", "<br>"].join("")
+           }
+           $(['<div class="aplace" id="place' + e.spot_id + '" name="' + e.spot_id + '">', "<h3>", '<a href="' + e.external_url + '" target="_blank">', e.name, "</a>", "</h3>", "<div >", "<div>", e.street, "</div>", '<a href="' + e.external_url + '" target="_blank">', '<img src="' + advanced_google_maps_url + '">', "</a>", "<div>", e.category, "</div>", "<div>", starA.join(""), "</div>", '<div  class="reviewactions">', reviewlink, '<span class="write" id="write' + e.spot_id + '" name="' + e.spot_id + 
+           '" >', "Write a review!", "</span>", "</div>", "</div>", "</div>"].join("")).appendTo("#places")
+@@ -151,7 +151,7 @@
+               contentA = contentA.concat(['<div  class="reviewactions">', '<span class="back" id="back' + b.spot_id + '" name="' + b.spot_id + '" >Back', "</span>", "</div>"]);
+               content = contentA.join(" ")
+             }
+-            $("#place" + b.spot_id).flip({direction:"rl", color:"#4A8EC2", content:content,onEnd:function() {
++            $("#place" + b.spot_id).flip({direction:"rl", color:"#ffffff", content:content,onEnd:function() {
+             blocked[b.spot_id]=false;
+             }
+             })
+-- 
+1.7.4.1
+
