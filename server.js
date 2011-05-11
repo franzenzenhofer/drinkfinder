@@ -4,11 +4,13 @@ var tupalo = require('tupalocomapi');
   //with a value like
   //module.exports.tupalo_token = '86fe2257851XYZb168b67846c6b0f28e'; //(fake) tupalocomtoken
   var token = require('./token/token.js');
+  var hasToken = false;
   if(token&&token.tupalo_token)
   {
     console.log("**TOKEN MODE**");
     console.log(token.tupalo_token);
     tupalo.setToken(token.tupalo_token);
+    hasToken = true;
   }
   else
   {  
@@ -93,6 +95,7 @@ socket.on('connection', function(client){
       stuffAround(d.latitude, d.longitude, function(d){
         client.send({
           what:'stuffAround',
+          hasToken: hasToken,
           data: JSON.parse(d)
         });
       }, d.radius, d.offset);
@@ -105,6 +108,7 @@ socket.on('connection', function(client){
         console.log(d);
         client.send({
           what:'widget',
+          hasToken: hasToken,
           spot_id: sid,
           data: JSON.parse(d)
         });
@@ -118,6 +122,7 @@ socket.on('connection', function(client){
         console.log(d);
         client.send({
           what:'detail',
+          hasToken: hasToken,
           spot_id: sid,
           data: JSON.parse(d)
         });
