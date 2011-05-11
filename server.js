@@ -125,7 +125,7 @@ socket.on('connection', function(client){
           hasToken: hasToken,
           spot_id: sid,
           data: JSON.parse(d)
-        }); 
+        });
       }}(d));
       
     }
