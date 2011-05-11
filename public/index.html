@@ -113,7 +113,7 @@
           }
           if(b.hasToken)
           {
-           widgetlink = ['<span class="write" id="write' + e.spot_id + '" name="' + e.spot_id + '" >', "Write a review!", "</span>"].join();
+           widgetlink = ['<span class="write" id="write' + e.spot_id + '" name="' + e.spot_id + '" >', "Write a review!", "</span>"].join('');
           }
           $(['<div class="aplace" id="place' + e.spot_id + '" name="' + e.spot_id + '">', "<h3>", '<a href="' + e.external_url + '" target="_blank">', e.name, "</a>", "</h3>", "<div >", "<div>", e.street, "</div>", '<a href="' + e.external_url + '" target="_blank">', '<img src="' + advanced_google_maps_url + '">', "</a>", "<div>", e.category, "</div>", "<div>", starA.join(""), "</div>", '<div  class="reviewactions">', reviewlink, widgetlink, "</div>", "</div>", "</div>"].join("")).appendTo("#places")
         });
