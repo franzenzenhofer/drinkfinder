@@ -1,5 +1,5 @@
 //config
 
-module.exports.tupalo_token = false;
+module.exports.tupalo_token = '506d8838edc5d32e2d9b20c1aa60d224';
 //hudriwudri
 
