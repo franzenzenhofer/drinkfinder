@@ -1,5 +1,2 @@
-config.js
-node_modules
-.*\.patch
-token.js
-token
+token/*
+node_modules/*

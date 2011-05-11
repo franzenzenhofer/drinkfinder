@@ -3,7 +3,7 @@ var tupalo = require('tupalocomapi');
   //looking for a token.js file
   //with a value like
   //module.exports.tupalo_token = '86fe2257851XYZb168b67846c6b0f28e'; //(fake) tupalocomtoken
-  var token = require('./token.js');
+  var token = require('./token/token.js');
   if(token&&token.tupalo_token)
   {
     console.log("**TOKEN MODE**");
