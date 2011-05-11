@@ -37,7 +37,8 @@
   humane.waitForMove = false;
   humane.forceNew = false;
   var c = undefined;
-  c = new io.Socket(null, {tryTransportsOnConnectTimeout:true, reconnect:true, reconnectionDelay:500});
+  c = new io.Socket(null, {transports:["jsonp-polling", "websocket", "flashsocket", "htmlfile", "xhr-multipart", "xhr-polling"], 
+  tryTransportsOnConnectTimeout:true, reconnect:true, reconnectionDelay:500});
   var blocked = {};
   $(".write").live("click", function(elem) {
     if(!blocked[$(this).attr("name")])
