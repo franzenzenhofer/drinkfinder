@@ -37,6 +37,7 @@
   humane.waitForMove = false;
   humane.forceNew = false;
   var c = undefined;
+  c = new io.Socket(null, {tryTransportsOnConnectTimeout:true, reconnect:true, reconnectionDelay:500});
   var blocked = {};
   $(".write").live("click", function(elem) {
     if(!blocked[$(this).attr("name")])
@@ -61,7 +62,7 @@
     //"gameoflife.duostack.net", {port:9980,
     
    // c = new io.Socket("127.0.0.1", {transports:["websocket", "flashsocket", "htmlfile", "xhr-multipart", "xhr-polling", "jsonp-polling"], port:8080, connectTimeout:1E3, tryTransportsOnConnectTimeout:true, reconnect:true, reconnectionDelay:500});
-    c = new io.Socket(null, {transports:["websocket", "flashsocket", "htmlfile", "xhr-multipart", "xhr-polling", "jsonp-polling"],  connectTimeout:1E3, tryTransportsOnConnectTimeout:true, reconnect:true, reconnectionDelay:500});
+
     //console.log(c);
     c.on("connecting", function(kind) {
       alert("connecting");
@@ -83,7 +84,7 @@
           humane("still looking ... ");
           radius = radius + 1;
          // console.log("***NO DATA***");
-          c.send({"func":"stuffAround", "latitude":latitude, "longitude":longitude, "radius":radius, "offset":wholeData.length + 1})
+          c.send({"func":"stuffAround", "latitude":latitude, "longitude":longitude, "radius":radius, "offset":wholeData.length})
         }else {
           humane("sorry, no drinks for you (in our database)")
         }
@@ -94,11 +95,12 @@
        // console.log(typeof b[0]);
         lastData = [];
         //console.log(b);
-        wholeData = wholeData.concat(b);
+        wholeData = wholeData.concat(b.data);
         b.data.forEach(function(e) {
           var advanced_google_maps_url = e.google_maps_url + "&markers=icon:http%3A%2F%2Fwww.facesaerch.com%2Fimages%2Fknight.png|" + latitude + "," + longitude;
           var starA = [];
           var reviewlink = "";
+          var widgetlink = "";
           for(var i = 1;i <= e.rating;i++) {
             starA.push('<img src="/img/star.png">')
           }
@@ -108,8 +110,11 @@
           if(starA.length > 0) {
             reviewlink = ['<span class="check" id="check' + e.spot_id + '" name="' + e.spot_id + '" >', "Check reviews &rarr;", "</span>", "<br>"].join("")
           }
-          $(['<div class="aplace" id="place' + e.spot_id + '" name="' + e.spot_id + '">', "<h3>", '<a href="' + e.external_url + '" target="_blank">', e.name, "</a>", "</h3>", "<div >", "<div>", e.street, "</div>", '<a href="' + e.external_url + '" target="_blank">', '<img src="' + advanced_google_maps_url + '">', "</a>", "<div>", e.category, "</div>", "<div>", starA.join(""), "</div>", '<div  class="reviewactions">', reviewlink, '<span class="write" id="write' + e.spot_id + '" name="' + e.spot_id + 
-          '" >', "Write a review!", "</span>", "</div>", "</div>", "</div>"].join("")).appendTo("#places")
+          if(b.hasToken)
+          {
+           widgetlink = ['<span class="write" id="write' + e.spot_id + '" name="' + e.spot_id + '" >', "Write a review!", "</span>"].join();
+          }
+          $(['<div class="aplace" id="place' + e.spot_id + '" name="' + e.spot_id + '">', "<h3>", '<a href="' + e.external_url + '" target="_blank">', e.name, "</a>", "</h3>", "<div >", "<div>", e.street, "</div>", '<a href="' + e.external_url + '" target="_blank">', '<img src="' + advanced_google_maps_url + '">', "</a>", "<div>", e.category, "</div>", "<div>", starA.join(""), "</div>", '<div  class="reviewactions">', reviewlink, widgetlink, "</div>", "</div>", "</div>"].join("")).appendTo("#places")
         });
         if(wholeDataLength !== wholeData.length && wholeData.length < 50) {
           wholeDataLength = wholeData.length;
@@ -117,7 +122,7 @@
           $("#places").append(['<div class="aplace more" id="' + myid + '">', "<div>", '<b class="boldium">', "more", "</b>", "</div>", "</div>"].join(""));
           $("#" + myid).click(function(e) {
             humane("Ok, looking for more places!");
-            c.send({"func":"stuffAround", "latitude":latitude, "longitude":longitude, "radius":radius, "offset":wholeData.length + 1});
+            c.send({"func":"stuffAround", "latitude":latitude, "longitude":longitude, "radius":radius, "offset":wholeData.length});
            // console.log("offset length");
            // console.log(wholeData.length);
             $("#" + myid).remove();

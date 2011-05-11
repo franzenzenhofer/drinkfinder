@@ -82,7 +82,7 @@ var widget = function(spot_id, callback)
    res.send('Hello World');
  });
 
- app.listen(8124, '127.0.0.1');
+app.listen(8124, '127.0.0.1');
  
  var socket = io.listen(app); 
 socket.on('connection', function(client){ 
